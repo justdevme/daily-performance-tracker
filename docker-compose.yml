@@ -1,0 +1,20 @@
+services: # khai bao cac container
+  postgres:
+    image: postgres:16.1
+    container_name: dpt-postgres
+    environment:
+      POSTGRES_DB: dpt
+      POSTGRES_USER: dpt
+      POSTGRES_PASSWORD: dpt123
+    ports:
+      - "55432:5432"
+    volumes: # giup giu data
+      - dpt_pgdata:/var/lib/postgresql/data
+    healthcheck: # khai bao cach kiem tra container da ss chua
+      test: ["CMD-SHELL", "pg_isready -U dpt -d dpt"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  dpt_pgdata:
