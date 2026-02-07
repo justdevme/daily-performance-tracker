@@ -36,6 +36,10 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public Task get(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+    }
 
     // Get all tasks for a specific week
     public List<Task> getTasksForWeek(int weekNumber) {

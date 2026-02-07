@@ -4,6 +4,8 @@
 ## 04-05/02/2026: fix xong lỗi flyway không chạy được, do pom.xml không import đúng dependency
 ## 05/02/26: done api week + task + nối backend frontend trang WeekPlan
 ## 05/02/26:  
-### chưa có click vào task có sẵn 
-### chưa có delete task
-### chưa có filter các tuần
+### chưa có click vào task có sẵn -> done
+### chưa có delete task  -> done
+### chưa có filter các tuần -> thuc hien sau
+## 07/02/26:
+### Habit API - In progress

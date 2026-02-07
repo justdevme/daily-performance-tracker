@@ -21,10 +21,10 @@ public class TaskController {
         return taskService.createTask(req);
     }
 
-    /*@GetMapping("/{id}")
+    @GetMapping("/{id}")
     public Task get(@PathVariable Long id) {
         return taskService.get(id);
-    }*/
+    }
 
     @GetMapping
     public List<Task> getByWeek(@RequestParam int weekNumber) {
