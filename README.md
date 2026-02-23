@@ -1,8 +1,3 @@
-Dưới đây là **README chuẩn portfolio-level** dành riêng cho project của bạn (Daily Performance Tracker + Focus Session).
-Bạn có thể **copy dán trực tiếp** vào `README.md` trên GitHub — mình viết theo format mà recruiter backend rất thích (rõ kiến trúc + feature + tech stack).
-
----
-
 # 📊 Daily Performance Tracker (DPT)
 
 > A productivity and focus management system that helps users plan weekly tasks, track focused work sessions (Pomodoro-style), and analyze personal performance over time.
