@@ -15,5 +15,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByDayOfWeekAndWeekId(DayOfWeek day, Long weekId);
     List<Task> findByWeekIdOrderByDueDateAsc(Long weekId);
     long countByStatusAndDueDate(TaskStatus status, LocalDate dueDate);
+    List<Task> findByUserIdAndDueDateBetweenOrderByDueDateAsc(
+            Integer userId, LocalDate start, LocalDate end
+    );
 }
 

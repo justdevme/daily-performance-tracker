@@ -6,7 +6,7 @@ import java.util.List;
 import com.example.monolith_dpt.dto.AuthenticationRequest;
 import com.example.monolith_dpt.dto.AuthenticationResponse;
 import com.example.monolith_dpt.dto.RegisterRequest;
-import com.example.monolith_dpt.entity.Role;
+import com.example.monolith_dpt.entity.RoleName;
 import com.example.monolith_dpt.entity.Token;
 import com.example.monolith_dpt.entity.TokenType;
 import com.example.monolith_dpt.entity.User;
@@ -50,7 +50,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(RoleName.USER)
                 .build();
         return register(user);
     }
@@ -61,7 +61,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ADMIN)
+                .role(RoleName.ADMIN)
                 .build();
         return register(user);
     }

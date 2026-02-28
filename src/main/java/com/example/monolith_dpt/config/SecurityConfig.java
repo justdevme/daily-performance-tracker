@@ -2,7 +2,7 @@ package com.example.monolith_dpt.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-import com.example.monolith_dpt.entity.Role;
+import com.example.monolith_dpt.entity.RoleName;
 import com.example.monolith_dpt.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,8 +52,8 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers("/api/v1/admin/**").hasRole(Role.ADMIN.name())
-                        .requestMatchers("/api/v1/users").hasRole(Role.USER.name())
+                        .requestMatchers("/api/v1/admin/**").hasRole(RoleName.ADMIN.name())
+                        .requestMatchers("/api/v1/users").hasRole(RoleName.USER.name())
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface HabitCompletionRepository extends JpaRepository<HabitCompletion, Long> {
@@ -18,4 +19,13 @@ public interface HabitCompletionRepository extends JpaRepository<HabitCompletion
           and hc.completed = true
     """)
     long countCompletedOnDate(@Param("date") LocalDate date);
+
+    @Query("""
+        select hc from HabitCompletion hc
+        where hc.habit.user.id = :userId
+        and hc.completedDate between :start and :end
+    """)
+    List<HabitCompletion> findByUserIdAndDateBetween(
+            Long userId, LocalDate start, LocalDate end
+    );
 }

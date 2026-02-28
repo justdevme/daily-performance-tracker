@@ -16,5 +16,16 @@ services: # khai bao cac container
       timeout: 5s
       retries: 10
 
+  redis:
+    image: redis:7-alpine
+    container_name: dpt-redis
+    ports:
+      - "6379:6379"
+    command: [ "redis-server", "--appendonly", "yes" ]
+    volumes:
+      - redis_data:/data
+
+
 volumes:
   dpt_pgdata:
+  redis_data:
