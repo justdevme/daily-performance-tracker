@@ -8,11 +8,14 @@ import com.example.monolith_dpt.service.performance.normalize.ScoreNormalizer;
 import com.example.monolith_dpt.service.performance.normalize.weight.WeightResolver;
 import com.example.monolith_dpt.service.performance.normalize.weight.WeightedAggregator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +29,28 @@ public class PerformanceEngine {
     private final WeightedAggregator aggregator;
     private final WeightResolver weightResolver;
 
+    @Qualifier("performanceExecutor")
+    private final Executor executor;
+
     public PerformanceDailyResponse calculate(LocalDate date) {
 
-        long doneTasks = taskRaw.doneCount(date);
-        long focusMinutes = focusRaw.totalMinutes(date);
-        var habitRawResult = habitRaw.completionRate(date);
+        CompletableFuture<Long> taskFuture = CompletableFuture.supplyAsync(
+                () -> taskRaw.doneCount(date), executor
+        );
 
+        CompletableFuture<Long> focusFuture = CompletableFuture.supplyAsync(
+                () -> focusRaw.totalMinutes(date), executor
+        );
+
+        CompletableFuture<HabitRawMetricCalculator.HabitRawResult> habitFuture = CompletableFuture.supplyAsync(
+                () -> habitRaw.completionRate(date), executor
+        );
+
+        CompletableFuture.allOf(taskFuture, focusFuture, habitFuture).join();
+
+        long doneTasks    = taskFuture.join();
+        long focusMinutes = focusFuture.join();
+        var habitRawResult   = habitFuture.join();
         // NORMALIZE (0..100) -> BigDecimal
         BigDecimal taskScore = normalizer.taskScore(doneTasks);
         BigDecimal focusScore = normalizer.focusScore(focusMinutes);

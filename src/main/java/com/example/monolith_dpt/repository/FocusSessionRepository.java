@@ -2,7 +2,9 @@ package com.example.monolith_dpt.repository;
 
 import com.example.monolith_dpt.entity.FocusSession;
 import com.example.monolith_dpt.entity.FocusSessionStatus;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -35,4 +37,12 @@ public interface FocusSessionRepository extends JpaRepository<FocusSession, Long
             @Param("to") Instant to
     );
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("""
+    select fs from FocusSession fs
+    where fs.task.id = :taskId
+      and fs.status = com.example.monolith_dpt.entity.FocusSessionStatus.RUNNING
+      and fs.endedAt is null
+    """)
+    Optional<FocusSession> findRunningByTaskIdForUpdate(@Param("taskId") Long taskId);
 }

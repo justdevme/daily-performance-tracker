@@ -28,7 +28,7 @@ public class FocusSessionService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found: " + taskId));
 
-        focusSessionRepository.findRunningByTaskId(taskId).ifPresent(running -> {
+        focusSessionRepository.findRunningByTaskIdForUpdate(taskId).ifPresent(running -> {
             throw new IllegalStateException("Task already has a running focus session" + running.getId());
         });
 
